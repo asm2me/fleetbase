@@ -29,6 +29,9 @@ RUN apk update && apk add git openssh-client
 # Trust GitHub's RSA host key
 RUN mkdir -p -m 0600 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 
+# Copy the postinstall script before installing dependencies
+COPY scripts/patch-ember-ui-intl-tel-input.js ./scripts/patch-ember-ui-intl-tel-input.js
+
 # Install app dependencies
 RUN pnpm install
 

@@ -1,0 +1,12 @@
+{
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "installCommand": "corepack pnpm --dir console install --frozen-lockfile --ignore-scripts",
+    "buildCommand": "node console/scripts/build-vercel.js",
+    "outputDirectory": "console/dist",
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
+}

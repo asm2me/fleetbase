@@ -175,6 +175,14 @@ export default async function loadRuntimeConfig() {
             return;
         }
 
+        const contentType = response.headers.get('content-type') || '';
+        const looksLikeJson = contentType.includes('application/json') || contentType.includes('text/json') || contentType.includes('+json');
+
+        if (!looksLikeJson) {
+            debug(`[Runtime Config] fleetbase.config.json response was not JSON (${contentType || 'unknown content-type'}), using built-in config defaults`);
+            return;
+        }
+
         const runtimeConfig = await response.json();
         const endTime = performance.now();
 

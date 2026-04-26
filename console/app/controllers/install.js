@@ -9,6 +9,7 @@ export default class InstallController extends Controller {
     @service notifications;
     @service router;
     @tracked error;
+    @tracked requestTimeout = 600000;
     @tracked steps = [
         { task: 'createdb', name: 'Create Database', status: 'pending' },
         { task: 'migrate', name: 'Run Migrations', status: 'pending' },
@@ -68,7 +69,7 @@ export default class InstallController extends Controller {
         this.updateTask('createdb', { status: 'in_progress' });
 
         try {
-            yield this.fetch.post('installer/createdb');
+            yield this.fetch.post('installer/createdb', {}, { timeout: this.requestTimeout });
             this.updateTask('createdb', { status: 'completed' });
         } catch (error) {
             this.updateTask('createdb', { status: 'failed' });
@@ -80,7 +81,7 @@ export default class InstallController extends Controller {
         this.updateTask('migrate', { status: 'in_progress' });
 
         try {
-            yield this.fetch.post('installer/migrate');
+            yield this.fetch.post('installer/migrate', {}, { timeout: this.requestTimeout });
             this.updateTask('migrate', { status: 'completed' });
         } catch (error) {
             this.updateTask('migrate', { status: 'failed' });
@@ -92,7 +93,7 @@ export default class InstallController extends Controller {
         this.updateTask('seed', { status: 'in_progress' });
 
         try {
-            yield this.fetch.post('installer/seed');
+            yield this.fetch.post('installer/seed', {}, { timeout: this.requestTimeout });
             this.updateTask('seed', { status: 'completed' });
         } catch (error) {
             this.updateTask('seed', { status: 'failed' });
