@@ -1,0 +1,18 @@
+if [ -f /tmp/fleetbase-console-build.pid ]; then
+  echo PID:
+  cat /tmp/fleetbase-console-build.pid
+else
+  echo PID: missing
+fi
+echo ---
+if [ -f /tmp/fleetbase-console-build.pid ]; then
+  ps -p "$(cat /tmp/fleetbase-console-build.pid)" -o pid=,stat=,etime=,cmd= || true
+fi
+echo ---
+tail -n 40 /tmp/fleetbase-console-build.log
+echo ---
+if [ -d /srv/fleetbase/console/dist ]; then
+  echo console_dist_ready
+else
+  echo console_dist_missing
+fi

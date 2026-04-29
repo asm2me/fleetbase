@@ -1,0 +1,25 @@
+{
+    "name": "@fleetbase/trucking-engine",
+    "version": "1.0.0",
+    "description": "Canada/US Trucking Compliance — container lifecycle, authorizations, and charges",
+    "keywords": [
+        "fleetbase-extension",
+        "ember-engine",
+        "ember-addon",
+        "fleetbase"
+    ],
+    "license": "proprietary",
+    "fleetbase": {
+        "route": "trucking"
+    },
+    "ember-addon": {
+        "configPath": "tests/dummy/config"
+    },
+    "dependencies": {
+        "ember-cli-babel": "*",
+        "ember-cli-htmlbars": "*",
+        "ember-engines": "*",
+        "ember-resolver": "*",
+        "ember-load-initializers": "*"
+    }
+}

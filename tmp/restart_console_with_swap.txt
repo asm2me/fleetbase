@@ -1,0 +1,13 @@
+if ! swapon --show | grep -q '/swapfile'; then
+  if [ ! -f /swapfile ]; then
+    fallocate -l 4G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile
+  fi
+  swapon /swapfile
+  grep -q '^/swapfile ' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
+fi
+cd /srv/fleetbase/console
+printf '%s\n' 'last 2 Chrome versions' 'last 2 Firefox versions' 'last 2 Edge versions' 'last 2 Safari versions' 'last 2 iOS versions' 'not dead' > .browserslistrc
+nohup env NODE_OPTIONS=--max-old-space-size=1024 pnpm build > /tmp/fleetbase-console-build.log 2>&1 & echo $! > /tmp/fleetbase-console-build.pid
+echo console_build_restarted

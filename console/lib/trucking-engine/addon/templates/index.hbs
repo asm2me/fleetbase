@@ -1,0 +1,106 @@
+<div class="p-6 space-y-6">
+    <h2 class="text-2xl font-bold">Trucking Compliance Dashboard</h2>
+
+    {{! Expired — urgent }}
+    {{#if (or @model.trucks_expired.length @model.drivers_expired.length)}}
+    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-4">
+        <h3 class="font-semibold text-red-700 dark:text-red-400 mb-3 flex items-center gap-2">
+            <FaIcon @icon="circle-exclamation" /> Expired Documents
+        </h3>
+        {{#if @model.trucks_expired.length}}
+        <div class="mb-2">
+            <p class="text-sm font-medium text-red-600 mb-1">Trucks ({{@model.trucks_expired.length}})</p>
+            <ul class="text-sm space-y-1">
+                {{#each @model.trucks_expired as |d|}}
+                <li class="flex gap-3 text-red-700 dark:text-red-300">
+                    <span class="font-mono">{{d.document_number}}</span>
+                    <span class="text-gray-500">{{d.document_type}}</span>
+                    <span>Expired: {{d.expiry_date}}</span>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        {{/if}}
+        {{#if @model.drivers_expired.length}}
+        <div>
+            <p class="text-sm font-medium text-red-600 mb-1">Drivers ({{@model.drivers_expired.length}})</p>
+            <ul class="text-sm space-y-1">
+                {{#each @model.drivers_expired as |d|}}
+                <li class="flex gap-3 text-red-700 dark:text-red-300">
+                    <span class="font-mono">{{d.document_number}}</span>
+                    <span class="text-gray-500">{{d.document_type}}</span>
+                    <span>Expired: {{d.expiry_date}}</span>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        {{/if}}
+    </div>
+    {{/if}}
+
+    {{! Expiring soon — warning }}
+    {{#if (or @model.trucks_expiring.length @model.drivers_expiring.length)}}
+    <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4">
+        <h3 class="font-semibold text-yellow-700 dark:text-yellow-400 mb-3 flex items-center gap-2">
+            <FaIcon @icon="triangle-exclamation" /> Expiring Within 60 Days
+        </h3>
+        {{#if @model.trucks_expiring.length}}
+        <div class="mb-2">
+            <p class="text-sm font-medium text-yellow-600 mb-1">Trucks ({{@model.trucks_expiring.length}})</p>
+            <ul class="text-sm space-y-1">
+                {{#each @model.trucks_expiring as |d|}}
+                <li class="flex gap-3 text-yellow-700 dark:text-yellow-300">
+                    <span class="font-mono">{{d.document_number}}</span>
+                    <span class="text-gray-500">{{d.document_type}}</span>
+                    <span>Expires: {{d.expiry_date}}</span>
+                    <span class="font-semibold">{{d.days_until_expiry}} days</span>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        {{/if}}
+        {{#if @model.drivers_expiring.length}}
+        <div>
+            <p class="text-sm font-medium text-yellow-600 mb-1">Drivers ({{@model.drivers_expiring.length}})</p>
+            <ul class="text-sm space-y-1">
+                {{#each @model.drivers_expiring as |d|}}
+                <li class="flex gap-3 text-yellow-700 dark:text-yellow-300">
+                    <span class="font-mono">{{d.document_number}}</span>
+                    <span class="text-gray-500">{{d.document_type}}</span>
+                    <span>Expires: {{d.expiry_date}}</span>
+                    <span class="font-semibold">{{d.days_until_expiry}} days</span>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        {{/if}}
+    </div>
+    {{/if}}
+
+    {{#unless (or @model.trucks_expired.length @model.drivers_expired.length @model.trucks_expiring.length @model.drivers_expiring.length)}}
+    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-6 text-center">
+        <FaIcon @icon="circle-check" class="text-green-500 text-3xl mb-2" />
+        <p class="text-green-700 dark:text-green-300 font-medium">All truck and driver documents are valid for the next 60 days.</p>
+    </div>
+    {{/unless}}
+
+    {{! Quick links }}
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <LinkTo @route="console.trucking.containers" class="block p-4 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow text-center">
+            <FaIcon @icon="box" class="text-2xl text-blue-500 mb-2" />
+            <p class="font-medium text-sm">Containers</p>
+        </LinkTo>
+        <LinkTo @route="console.trucking.truck-documents" class="block p-4 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow text-center">
+            <FaIcon @icon="file-certificate" class="text-2xl text-indigo-500 mb-2" />
+            <p class="font-medium text-sm">Truck Documents</p>
+        </LinkTo>
+        <LinkTo @route="console.trucking.driver-documents" class="block p-4 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow text-center">
+            <FaIcon @icon="id-card" class="text-2xl text-cyan-500 mb-2" />
+            <p class="font-medium text-sm">Driver Documents</p>
+        </LinkTo>
+        <LinkTo @route="console.trucking.charges" class="block p-4 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow text-center">
+            <FaIcon @icon="file-invoice-dollar" class="text-2xl text-emerald-500 mb-2" />
+            <p class="font-medium text-sm">Charges</p>
+        </LinkTo>
+    </div>
+</div>

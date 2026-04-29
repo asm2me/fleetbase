@@ -1,0 +1,23 @@
+if [ -f /tmp/fleetbase-console-build.pid ]; then
+  pid=$(cat /tmp/fleetbase-console-build.pid)
+  echo PID:$pid
+  ps -p "$pid" -o pid=,stat=,etime=,pcpu=,pmem=,cmd= || true
+else
+  echo PID:missing
+fi
+echo ---
+if [ -f /tmp/fleetbase-console-build.log ]; then
+  echo LOG_MTIME:$(stat -c %y /tmp/fleetbase-console-build.log)
+  echo ---
+  tail -n 200 /tmp/fleetbase-console-build.log
+  echo ---
+  grep -niE 'error|fail|aborted|exception|postcss|selector|cannot be transformed|killed|out of memory|fatal|unexpected|terminated|exit code' /tmp/fleetbase-console-build.log | tail -n 100 || true
+else
+  echo LOG:missing
+fi
+echo ---
+if [ -d /srv/fleetbase/console/dist ]; then
+  echo console_dist_ready
+else
+  echo console_dist_missing
+fi

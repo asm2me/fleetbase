@@ -1,0 +1,59 @@
+<div class="next-content-panel max-w-3xl mx-auto p-6">
+    <h2 class="text-xl font-semibold mb-6">Add Truck Document</h2>
+    <form {{on "submit" (fn this.save @model)}}>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium mb-1">Document Type</label>
+                <select class="next-select" onchange={{fn (mut @model.document_type) value="target.value"}}>
+                    <option value="">Select type...</option>
+                    {{#each this.documentTypes as |t|}}<option value={{t}} selected={{eq @model.document_type t}}>{{t}}</option>{{/each}}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Document Number</label>
+                <Input @value={{@model.document_number}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Vehicle UUID</label>
+                <Input @value={{@model.vehicle_uuid}} class="next-input" placeholder="Vehicle UUID from Fleet-Ops" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Issuing Authority</label>
+                <Input @value={{@model.issuing_authority}} class="next-input" placeholder="e.g. FMCSA, MTO" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Issued Country</label>
+                <select class="next-select" onchange={{fn (mut @model.issued_country) value="target.value"}}>
+                    <option value="">Select...</option>
+                    {{#each this.countries as |c|}}<option value={{c}} selected={{eq @model.issued_country c}}>{{c}}</option>{{/each}}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Province / State</label>
+                <Input @value={{@model.issued_province_state}} class="next-input" placeholder="e.g. ON, TX" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Issue Date</label>
+                <Input @type="date" @value={{@model.issue_date}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Expiry Date</label>
+                <Input @type="date" @value={{@model.expiry_date}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Status</label>
+                <select class="next-select" onchange={{fn (mut @model.status) value="target.value"}}>
+                    {{#each this.statuses as |s|}}<option value={{s}} selected={{eq @model.status s}}>{{s}}</option>{{/each}}
+                </select>
+            </div>
+        </div>
+        <div class="mt-4">
+            <label class="block text-sm font-medium mb-1">Notes</label>
+            <Textarea @value={{@model.notes}} class="next-input" rows="2" />
+        </div>
+        <div class="flex gap-3 mt-6">
+            <button type="submit" class="next-btn-primary">Save Document</button>
+            <button type="button" class="next-btn-default" {{on "click" this.cancel}}>Cancel</button>
+        </div>
+    </form>
+</div>

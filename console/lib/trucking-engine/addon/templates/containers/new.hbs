@@ -1,0 +1,79 @@
+<div class="next-content-panel max-w-3xl mx-auto p-6">
+    <h2 class="text-xl font-semibold mb-6">New Container</h2>
+
+    <form {{on "submit" (fn this.save @model)}}>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium mb-1">Container Number</label>
+                <Input @value={{@model.container_number}} class="next-input" placeholder="e.g. MSCU1234567" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Container Type</label>
+                <select class="next-select" onchange={{fn (mut @model.container_type) value="target.value"}}>
+                    <option value="">Select type...</option>
+                    {{#each this.containerTypes as |t|}}
+                        <option value={{t}} selected={{eq @model.container_type t}}>{{t}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Booking Number</label>
+                <Input @value={{@model.booking_number}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Bill of Lading</label>
+                <Input @value={{@model.bill_of_lading}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Seal Number</label>
+                <Input @value={{@model.seal_number}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Shipping Line</label>
+                <Input @value={{@model.shipping_line}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Port of Loading</label>
+                <Input @value={{@model.port_of_loading}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Port of Discharge</label>
+                <Input @value={{@model.port_of_discharge}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Final Destination</label>
+                <Input @value={{@model.final_destination}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Status</label>
+                <select class="next-select" onchange={{fn (mut @model.status) value="target.value"}}>
+                    {{#each this.statuses as |s|}}
+                        <option value={{s}} selected={{eq @model.status s}}>{{s}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Free Days (Demurrage)</label>
+                <Input @type="number" @value={{@model.free_days}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Free Days (Detention)</label>
+                <Input @type="number" @value={{@model.free_days_detention}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">ETA</label>
+                <Input @type="datetime-local" @value={{@model.estimated_arrival_at}} class="next-input" />
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <label class="block text-sm font-medium mb-1">Notes</label>
+            <Textarea @value={{@model.notes}} class="next-input" rows="3" />
+        </div>
+
+        <div class="flex gap-3 mt-6">
+            <button type="submit" class="next-btn-primary">Save Container</button>
+            <button type="button" class="next-btn-default" {{on "click" this.cancel}}>Cancel</button>
+        </div>
+    </form>
+</div>

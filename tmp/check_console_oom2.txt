@@ -1,0 +1,17 @@
+if [ -f /tmp/fleetbase-console-build.pid ]; then
+  pid=$(cat /tmp/fleetbase-console-build.pid)
+  echo PID:$pid
+  ps -p "$pid" -o pid=,stat=,etime=,pcpu=,pmem=,cmd= || true
+else
+  echo PID:missing
+fi
+echo ---
+dmesg | tail -n 200 | grep -i -E 'oom|out of memory|killed process|node|ember|pnpm' || true
+echo ---
+journalctl -k -n 200 --no-pager | grep -i -E 'oom|out of memory|killed process|node|ember|pnpm' || true
+echo ---
+if [ -d /srv/fleetbase/console/dist ]; then
+  echo console_dist_ready
+else
+  echo console_dist_missing
+fi

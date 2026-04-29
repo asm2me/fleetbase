@@ -1,0 +1,14 @@
+<Layout::Resource::Tabular
+    @resource="trucking-container"
+    @title="Containers"
+    @searchQuery={{this.query}}
+    @data={{@model}}
+    @columns={{this.columns}}
+    @page={{this.page}}
+    @onPageChange={{fn (mut this.page)}}
+    @setupTable={{fn (mut this.table)}}
+    @actionButtons={{this.actionButtons}}
+    @onRowClick={{this.viewDetails}}
+    @controller={{this}}
+/>
+{{outlet}}

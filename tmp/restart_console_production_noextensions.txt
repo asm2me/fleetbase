@@ -1,0 +1,5 @@
+cd /srv/fleetbase/console
+printf '%s\n' 'last 2 Chrome versions' 'last 2 Firefox versions' 'last 2 Edge versions' 'last 2 Safari versions' 'last 2 iOS versions' 'not dead' > .browserslistrc
+if [ -f /tmp/fleetbase-console-build.pid ]; then kill "$(cat /tmp/fleetbase-console-build.pid)" 2>/dev/null || true; fi
+nohup env DISABLE_EXTENSION_GENERATION=1 NODE_OPTIONS=--max-old-space-size=3072 pnpm build --environment=production > /tmp/fleetbase-console-build.log 2>&1 & echo $! > /tmp/fleetbase-console-build.pid
+echo console_build_restarted_production_noextensions

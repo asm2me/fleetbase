@@ -1,0 +1,12 @@
+if [ -f /tmp/fleetbase-console-build.pid ]; then
+  echo PID:
+  cat /tmp/fleetbase-console-build.pid
+else
+  echo PID: missing
+fi
+echo ---
+tail -n 80 /tmp/fleetbase-console-build.log
+echo ---
+grep -niE 'error|fail|aborted|exception|postcss|selector|cannot be transformed' /tmp/fleetbase-console-build.log | tail -n 20 || true
+echo ---
+if [ -d /srv/fleetbase/console/dist ]; then echo console_dist_ready; else echo console_dist_missing; fi

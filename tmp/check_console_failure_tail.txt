@@ -1,0 +1,10 @@
+echo ---
+tail -n 120 /tmp/fleetbase-console-build.log
+echo ---
+grep -niE 'error|fail|aborted|exception|killed|out of memory|heap|fatal|unexpected' /tmp/fleetbase-console-build.log | tail -n 100 || true
+echo ---
+if [ -d /srv/fleetbase/console/dist ]; then
+  echo console_dist_ready
+else
+  echo console_dist_missing
+fi

@@ -1,0 +1,68 @@
+<div class="next-content-panel max-w-3xl mx-auto p-6">
+    <h2 class="text-xl font-semibold mb-6">New Charge</h2>
+    <form {{on "submit" (fn this.save @model)}}>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium mb-1">Charge Type</label>
+                <select class="next-select" onchange={{fn (mut @model.charge_type) value="target.value"}}>
+                    <option value="">Select type...</option>
+                    {{#each this.chargeTypes as |t|}}<option value={{t}} selected={{eq @model.charge_type t}}>{{t}}</option>{{/each}}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Container UUID</label>
+                <Input @value={{@model.container_uuid}} class="next-input" placeholder="Container UUID" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Party Responsible</label>
+                <select class="next-select" onchange={{fn (mut @model.party_responsible) value="target.value"}}>
+                    <option value="">Select party...</option>
+                    {{#each this.parties as |p|}}<option value={{p}} selected={{eq @model.party_responsible p}}>{{p}}</option>{{/each}}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Currency</label>
+                <select class="next-select" onchange={{fn (mut @model.currency) value="target.value"}}>
+                    {{#each this.currencies as |c|}}<option value={{c}} selected={{eq @model.currency c}}>{{c}}</option>{{/each}}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Charge Start Date</label>
+                <Input @type="date" @value={{@model.charge_start_date}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Charge End Date</label>
+                <Input @type="date" @value={{@model.charge_end_date}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Free Days Allowed</label>
+                <Input @type="number" @value={{@model.free_days_allowed}} class="next-input" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Rate Per Day</label>
+                <Input @type="number" @value={{@model.rate_per_day}} class="next-input" placeholder="0.00" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Status</label>
+                <select class="next-select" onchange={{fn (mut @model.status) value="target.value"}}>
+                    {{#each this.statuses as |s|}}<option value={{s}} selected={{eq @model.status s}}>{{s}}</option>{{/each}}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Due Date</label>
+                <Input @type="date" @value={{@model.due_date}} class="next-input" />
+            </div>
+        </div>
+        <div class="mt-4">
+            <label class="block text-sm font-medium mb-1">Notes</label>
+            <Textarea @value={{@model.notes}} class="next-input" rows="2" />
+        </div>
+        <div class="bg-blue-50 dark:bg-blue-900/20 rounded p-3 mt-4 text-sm text-blue-700 dark:text-blue-300">
+            Billable days and total amount are calculated automatically from start/end dates minus free days.
+        </div>
+        <div class="flex gap-3 mt-6">
+            <button type="submit" class="next-btn-primary">Save Charge</button>
+            <button type="button" class="next-btn-default" {{on "click" this.cancel}}>Cancel</button>
+        </div>
+    </form>
+</div>

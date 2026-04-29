@@ -1,0 +1,70 @@
+<div class="next-overlay-panel">
+    <div class="next-overlay-header">
+        <h3 class="text-lg font-semibold">{{@model.container_number}}</h3>
+        <span class="ml-2 text-sm text-gray-500">{{@model.bill_of_lading}}</span>
+    </div>
+
+    <div class="next-overlay-body p-4 space-y-4">
+        {{! Status & lifecycle }}
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+            <h4 class="font-semibold mb-3 text-sm uppercase text-gray-500">Status</h4>
+            <Trucking::StatusBadge @status={{@model.status}} />
+            <div class="mt-3 grid grid-cols-2 gap-2 text-sm">
+                <div><span class="text-gray-500">Container Type:</span> {{@model.container_type}}</div>
+                <div><span class="text-gray-500">Shipping Line:</span> {{@model.shipping_line}}</div>
+                <div><span class="text-gray-500">Port of Loading:</span> {{@model.port_of_loading}}</div>
+                <div><span class="text-gray-500">Port of Discharge:</span> {{@model.port_of_discharge}}</div>
+                <div><span class="text-gray-500">Booking #:</span> {{@model.booking_number}}</div>
+                <div><span class="text-gray-500">Bill of Lading:</span> {{@model.bill_of_lading}}</div>
+                <div><span class="text-gray-500">Seal #:</span> {{@model.seal_number}}</div>
+                <div><span class="text-gray-500">Final Destination:</span> {{@model.final_destination}}</div>
+            </div>
+        </div>
+
+        {{! Dates }}
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+            <h4 class="font-semibold mb-3 text-sm uppercase text-gray-500">Key Dates</h4>
+            <div class="space-y-1 text-sm">
+                <Trucking::DateRow @label="ETA" @value={{@model.estimated_arrival_at}} />
+                <Trucking::DateRow @label="Gate In" @value={{@model.gate_in_at}} />
+                <Trucking::DateRow @label="Gate Out" @value={{@model.gate_out_at}} />
+                <Trucking::DateRow @label="Customs In" @value={{@model.customs_in_at}} />
+                <Trucking::DateRow @label="Customs Out" @value={{@model.customs_out_at}} />
+                <Trucking::DateRow @label="Delivered" @value={{@model.delivered_at}} />
+                <Trucking::DateRow @label="Returned" @value={{@model.returned_at}} />
+            </div>
+        </div>
+
+        {{! Free days & charges }}
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+            <h4 class="font-semibold mb-3 text-sm uppercase text-gray-500">Allowances & Charges</h4>
+            <div class="grid grid-cols-2 gap-2 text-sm">
+                <div><span class="text-gray-500">Free Days (Demurrage):</span> {{@model.free_days}}</div>
+                <div><span class="text-gray-500">Free Days (Detention):</span> {{@model.free_days_detention}}</div>
+                <div class="{{if (gt @model.demurrage_days 0) 'text-red-600 font-semibold'}}">
+                    <span class="text-gray-500">Demurrage Days:</span> {{@model.demurrage_days}}
+                </div>
+                <div class="{{if (gt @model.detention_days 0) 'text-red-600 font-semibold'}}">
+                    <span class="text-gray-500">Detention Days:</span> {{@model.detention_days}}
+                </div>
+            </div>
+        </div>
+
+        {{! Transition actions }}
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+            <h4 class="font-semibold mb-3 text-sm uppercase text-gray-500">Lifecycle Actions</h4>
+            <div class="flex flex-wrap gap-2">
+                {{#each (array "loaded" "gated_out" "in_transit" "at_border" "customs_hold" "customs_cleared" "delivered" "returned" "empty_returned") as |s|}}
+                    <button
+                        type="button"
+                        class="px-3 py-1 text-xs rounded border border-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700"
+                        {{on "click" (fn this.transition @model s)}}
+                    >
+                        {{s}}
+                    </button>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+{{outlet}}

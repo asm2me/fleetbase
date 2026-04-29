@@ -1,0 +1,22 @@
+{
+  "name": "fleetbase",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Fleetbase monorepo root package for install and deployment scripts",
+  "license": "AGPL-3.0-or-later",
+  "engines": {
+    "node": ">=18",
+    "npm": ">=9"
+  },
+  "scripts": {
+    "bootstrap": "npm install --prefix api && npm install --prefix console",
+    "build": "npm run build:console && npm run build:api",
+    "build:api": "npm --prefix api run production",
+    "build:console": "npm --prefix console run build",
+    "dev:api": "npm --prefix api run watch",
+    "dev:console": "npm --prefix console run start:dev",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "docker:up": "docker compose up -d --build"
+  }
+}

@@ -1,0 +1,4 @@
+echo --- DMESG ---
+dmesg | tail -n 120 | grep -i -E 'oom|out of memory|killed process|node|ember|pnpm' || true
+echo --- JOURNAL ---
+journalctl -k -n 120 --no-pager | grep -i -E 'oom|out of memory|killed process|node|ember|pnpm' || true

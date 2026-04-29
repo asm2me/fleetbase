@@ -1,0 +1,12 @@
+echo ---LOG---
+tail -n 120 /tmp/fleetbase-console-build.log
+echo ---MATCHES---
+grep -niE 'error|fail|aborted|exception|killed|out of memory|heap|fatal|unexpected|oom' /tmp/fleetbase-console-build.log | tail -n 100 || true
+echo ---DMESG---
+dmesg | tail -n 200 | grep -i -E 'oom|out of memory|killed process|node|ember|pnpm' || true
+echo ---DIST---
+if [ -d /srv/fleetbase/console/dist ]; then
+  echo console_dist_ready
+else
+  echo console_dist_missing
+fi

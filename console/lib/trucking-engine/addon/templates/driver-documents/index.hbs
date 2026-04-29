@@ -1,0 +1,13 @@
+<Layout::Resource::Tabular
+    @resource="trucking-driver-document"
+    @title="Driver Documents"
+    @searchQuery={{this.query}}
+    @data={{@model}}
+    @columns={{this.columns}}
+    @page={{this.page}}
+    @onPageChange={{fn (mut this.page)}}
+    @setupTable={{fn (mut this.table)}}
+    @actionButtons={{this.actionButtons}}
+    @controller={{this}}
+/>
+{{outlet}}

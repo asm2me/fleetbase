@@ -38,6 +38,13 @@ module.exports = {
     included(app) {
         this._super.included.apply(this, arguments);
 
+        const disableExtensionGeneration = ['1', 'true', 'yes'].includes(String(process.env.DISABLE_EXTENSION_GENERATION).toLowerCase());
+
+        if (disableExtensionGeneration) {
+            console.log('[Fleetbase] Extension generation disabled via DISABLE_EXTENSION_GENERATION');
+            return;
+        }
+
         console.log('\n' + '/'.repeat(70));
         console.log('[Fleetbase] Extension Build System');
         console.log('/'.repeat(70));
