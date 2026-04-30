@@ -109,6 +109,11 @@ Router.map(function () {
             as: 'storefront',
             path: 'storefront'
         });
+
+        this.mount('@fleetbase/trucking-engine', {
+            as: 'trucking',
+            path: 'trucking'
+        });
     });
     this.route('catch', { path: '/*' });
 });

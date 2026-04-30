@@ -62,5 +62,10 @@ Router.map(function () {
             });
         });
     });
+
+    this.mount('@fleetbase/trucking-engine', {
+        as: 'trucking',
+        path: 'trucking'
+    });
     this.route('catch', { path: '/*' });
 });

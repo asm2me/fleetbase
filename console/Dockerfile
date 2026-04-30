@@ -10,9 +10,14 @@ ENV PNPM_HOME=/root/.pnpm
 
 # Set environment
 ARG ENVIRONMENT=production
+ARG DISABLE_EXTENSION_GENERATION=true
+ENV DISABLE_EXTENSION_GENERATION=$DISABLE_EXTENSION_GENERATION
 
 # Add the pnpm global bin to the PATH
 ENV PATH=/root/.pnpm/bin:$PATH
+
+# Increase Node heap for the Ember production build
+ENV NODE_OPTIONS=--max-old-space-size=4096
 
 # Copy pnpm-lock.yaml (or package.json) into the directory /console in the container
 COPY package.json pnpm-lock.yaml ./
@@ -31,6 +36,9 @@ RUN mkdir -p -m 0600 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 # Copy the postinstall script before installing dependencies
 COPY scripts/patch-ember-ui-intl-tel-input.js ./scripts/patch-ember-ui-intl-tel-input.js
+
+# Copy local library packages needed by pnpm workspace/file dependencies
+COPY lib/ ./lib/
 
 # Install app dependencies
 RUN pnpm install

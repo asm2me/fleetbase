@@ -38,10 +38,14 @@ module.exports = {
     included(app) {
         this._super.included.apply(this, arguments);
 
-        const disableExtensionGeneration = ['1', 'true', 'yes'].includes(String(process.env.DISABLE_EXTENSION_GENERATION).toLowerCase());
+        const buildEnvironment = (app && app.env) || process.env.EMBER_ENV || process.env.NODE_ENV || process.env.ENVIRONMENT;
+        const forceExtensionGeneration = ['1', 'true', 'yes'].includes(String(process.env.FORCE_EXTENSION_GENERATION).toLowerCase());
+        const disableExtensionGeneration =
+            !forceExtensionGeneration &&
+            (buildEnvironment === 'production' || ['1', 'true', 'yes'].includes(String(process.env.DISABLE_EXTENSION_GENERATION).toLowerCase()));
 
         if (disableExtensionGeneration) {
-            console.log('[Fleetbase] Extension generation disabled via DISABLE_EXTENSION_GENERATION');
+            console.log('[Fleetbase] Extension generation disabled in production or via DISABLE_EXTENSION_GENERATION');
             return;
         }
 
@@ -93,7 +97,7 @@ module.exports = {
             const seenPackages = new Set();
             const cwd = this.project.root;
 
-            return fg(['node_modules/*/package.json', 'node_modules/*/*/package.json'], { cwd })
+            return fg(['node_modules/*/package.json', 'node_modules/*/*/package.json', 'lib/*/package.json', 'lib/*/*/package.json'], { cwd })
                 .then((results) => {
                     for (let i = 0; i < results.length; i++) {
                         const packagePath = path.join(cwd, results[i]);
