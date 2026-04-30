@@ -42,7 +42,7 @@
                     {{#each this.endorsementOptions as |e|}}
                         <button
                             type="button"
-                            class="px-3 py-1 text-sm rounded border {{if (includes @model.cdl_endorsements e) 'bg-blue-500 text-white border-blue-500' 'border-gray-300 dark:border-gray-600'}}"
+                            class="px-3 py-1 text-sm rounded border {{if (contains e @model.cdl_endorsements) 'bg-blue-500 text-white border-blue-500' 'border-gray-300 dark:border-gray-600'}}"
                             {{on "click" (fn this.toggleEndorsement e)}}
                         >{{e}}</button>
                     {{/each}}
